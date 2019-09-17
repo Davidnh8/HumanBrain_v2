@@ -82,7 +82,7 @@ def Analyze(img_d_path,img_s_path,gtab):
     img_d_shape_3D=[j for i,j in enumerate(img_d.dataobj._shape) if i<3]
     img_s_shape_3D=img_s.dataobj._shape
 
-
+    #raise ValueError(" ")
     
     
     img_d_affine=img_d.affine
@@ -216,7 +216,7 @@ def Analyze(img_d_path,img_s_path,gtab):
 
     csa_model = CsaOdfModel(gtab, sh_order=6)
     gfa = csa_model.fit(img_d_data, mask=wm).gfa
-    classifier = ThresholdTissueClassifier(gfa, .30)    
+    classifier = ThresholdTissueClassifier(gfa, .25)    
 # =============================================================================
 #     import dipy.reconst.dti as dti
 #     from dipy.reconst.dti import fractional_anisotropy
@@ -235,7 +235,7 @@ def Analyze(img_d_path,img_s_path,gtab):
     
     fod = csd_fit.odf(small_sphere)
     pmf = fod.clip(min=0)
-    prob_dg = ProbabilisticDirectionGetter.from_pmf(pmf, max_angle=30.,
+    prob_dg = ProbabilisticDirectionGetter.from_pmf(pmf, max_angle=75.,
                                                     sphere=small_sphere)
     streamlines_generator = LocalTracking(prob_dg, classifier, seeds, img_d_affine, step_size=.5)
     save_trk("probabilistic_small_sphere.trk", streamlines_generator, img_d_affine, reduced_size_label.shape)
@@ -244,9 +244,9 @@ def Analyze(img_d_path,img_s_path,gtab):
     endpoints=np.array([st[0::len(st)-1] for st in astreamlines if len(st)>1] )
     
     print(endpoints)
-    with open('endpoints-shorder=6-maxangle=30-gfa=0.30-BSdiv.pkl','wb') as f:
+    with open('endpoints-shorder=6-maxangle=75-gfa=0.25-BSdiv-v3.pkl','wb') as f:
         pickle.dump(endpoints,f)
-    with open("reduced_label-shorder=6-maxangle=30-gfa=0.30-BSdiv.pkl","wb") as g:
+    with open("reduced_label-shorder=6-maxangle=75-gfa=0.25-BSdiv-v3.pkl","wb") as g:
         pickle.dump(reduced_size_label,g)
     #with open('endpoints.txt','w') as f:
     #    f.write(endpoints)

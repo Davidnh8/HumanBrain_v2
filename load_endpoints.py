@@ -19,10 +19,11 @@ import matplotlib.pyplot as plt
 
 
 
+
 # Loading endpoints and label
-with open("endpoints-shorder=6-maxangle=30-gfa=0.20-BSdiv.pkl",'rb') as f:
+with open("endpoints-shorder=6-maxangle=75-gfa=0.25-BSdiv.pkl",'rb') as f:
     endpoints=pickle.load(f)
-with open("reduced_label-shorder=6-maxangle=30-gfa=0.20-BSdiv.pkl",'rb') as g:
+with open("reduced_label-shorder=6-maxangle=75-gfa=0.25-BSdiv.pkl",'rb') as g:
     label=pickle.load(g)
 
 
@@ -100,7 +101,7 @@ for i in id_to_name.keys():
     for j in id_to_name.keys():
         new_label_map[i][j]+=label_map[j][i]
 
-with open ("bi-directional_label_map-shorder=6-maxangle=30-gfa=0.20-BSdiv.pkl",'wb') as l:
+with open ("bi-directional_label_map-shorder=6-maxangle=75-gfa=0.25-BSdiv.pkl",'wb') as l:
     pickle.dump(new_label_map,l)
 
 

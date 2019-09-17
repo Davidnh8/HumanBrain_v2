@@ -40,16 +40,18 @@ for i,j in zip(cortex_stat['No.'], cortex_stat['Labelname']):
                         
     
 # shorder, maxangle, gfa
-p1=["6" , "30"  , "0.25"]
-p2=["6" , "45"  , "0.25"]
-p3=["6" , "60"  , "0.25"]
-p4=["6" , "75"  , "0.25"]
-p5=["6" , "30"  , "0.20"]    
+p1=["6" , "45"  , "0.25", ""]
+p2=["6" , "45"  , "0.25", "-v2"]
+p3=["6" , "45"  , "0.25", "-v3"]
+#p3=["6" , "60"  , "0.25"]
+#p4=["6" , "75"  , "0.25"]
+#p5=["6" , "30"  , "0.20"]  
+#p6=["6" , "30"  , "0.30"]  
 
 
 def analyze(p):
     path='C:\\Users\\gham\\Desktop\\Human Brain\\'
-    data_file="bi-directional_label_map-shorder="+p[0]+"-maxangle="+p[1]+"-gfa="+p[2]+"-BSdiv.pkl"
+    data_file="bi-directional_label_map-shorder="+p[0]+"-maxangle="+p[1]+"-gfa="+p[2]+"-BSdiv"+ p[3] + ".pkl"
 
     with open (path+data_file,'rb') as f:
         data=pickle.load(f)
@@ -73,11 +75,14 @@ def analyze(p):
     
     return Master[~msk]
 
-for p in [p1,p2,p3,p4,p5]:
+for p in [p1,p2, p3]:
     MPM = analyze(p)
+    MPM['Medulla'][MPM['name']=='Medulla']=0
+    MPM['Pons'][MPM['name']=='Pons']=0
+    MPM['Midbrain'][MPM['name']=='Midbrain']=0
     print("sh_order= ",p[0], " max_angle= ",p[1], " gfa= ",p[2])
     print(MPM)
-
+    MPM.to_csv("Connectivity_sh_order= "+p[0]+ " max_angle= "+p[1]+" gfa= "+p[2] + p[3] +  ".csv")
 
 
 
